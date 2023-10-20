@@ -2,6 +2,10 @@ h1 {
    border: 1px solid black;
    padding: 2rem;
 }
+h1:hover {
+   cursor: pointer;
+   background-color: rgb(221, 221, 221);
+}
 main {
    border: none;
 }
