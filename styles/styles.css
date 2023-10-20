@@ -5,8 +5,12 @@ body {
    align-items: center;
 }
 header {
-   margin-bottom: 4rem;
+   margin-bottom: 1rem;
    display: flex;
    justify-content: end;
    align-items: end;
+}
+main {
+   padding: 2rem;
+   border: 1px solid black;
 }

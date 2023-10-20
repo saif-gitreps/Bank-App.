@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Bank</title>
+      <link rel="stylesheet" href="styles/styles.css" />
+      <link rel="stylesheet" href="styles/client.css" />
+   </head>
+   <body>
+      <header>
+         <nav>
+            <form action=""><button>Check notifications</button></form>
+            <p>Name:</p>
+            <p>Account number:</p>
+            <p>Balance:</p>
+            <p>Credit due:</p>
+         </nav>
+      </header>
+      <main>
+         <section id="client-transfer">
+            <h3>Transfer money</h3>
+            <form action="">
+               <div>
+                  <label for="receiveraccount">Receiver Account:</label>
+                  <input type="number" name="receiveraccount" />
+               </div>
+               <div>
+                  <label for="transfer">Amount:</label>
+                  <input type="number" name="transferamount" id="" />
+               </div>
+               <p id="client-message-transfer"></p>
+               <button>Transfer</button>
+            </form>
+         </section>
+         <section id="client-deposit">
+            <h3>Deposit money</h3>
+            <form action="">
+               <div>
+                  <label for="">Amount:</label>
+                  <input type="number" />
+               </div>
+               <p id="client-message-deposit"></p>
+               <button>Deposit</button>
+            </form>
+         </section>
+         <section id="client-loan">
+            <h3>Take loan</h3>
+            <form action="">
+               <div>
+                  <label for="">Amount:</label>
+                  <input type="number" />
+               </div>
+               <div>
+                  <label for="">Collateral:</label>
+                  <input type="text" />
+               </div>
+               <div>
+                  <label for="">Estimated date of repayment:</label>
+                  <input type="date" name="" id="" />
+               </div>
+               <p id="client-message-loan"></p>
+               <button>Request loan</button>
+            </form>
+         </section>
+      </main>
+   </body>
+</html>

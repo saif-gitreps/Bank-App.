@@ -1,0 +1,14 @@
+header nav {
+   display: flex;
+}
+header p {
+   margin: 0.2rem;
+   padding: 0rem 4rem;
+}
+main {
+   display: flex;
+}
+main section {
+   padding: 3rem;
+   border: 1px solid black;
+}
