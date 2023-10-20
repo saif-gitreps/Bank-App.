@@ -7,17 +7,31 @@
       <link rel="stylesheet" href="styles/styles.css" />
    </head>
    <body>
+      <header>
+         <nav>
+            <form action="">
+               <label for="">Open a new account: </label>
+               <button>create account</button>
+            </form>
+         </nav>
+      </header>
       <main>
          <form action="">
-            <label for="useremail">Email:</label>
-            <input type="email" name="useremail" id="" />
-            <label for="password">Password:</label>
-            <input type="password" name="userpassword" id="" />
-            <label for="">login as:</label>
-            <select name="userselection" id="">
-               <option value="admin">admin</option>
-               <option value="customer">customer</option>
-            </select>
+            <section>
+               <label for="useremail">Email:</label>
+               <input type="email" name="useremail" id="" />
+            </section>
+            <section>
+               <label for="password">Password:</label>
+               <input type="password" name="userpassword" id="" />
+            </section>
+            <section>
+               <label for="userselection">login as:</label>
+               <select name="userselection" id="">
+                  <option value="admin">admin</option>
+                  <option value="customer">customer</option>
+               </select>
+            </section>
             <button>Login</button>
          </form>
       </main>

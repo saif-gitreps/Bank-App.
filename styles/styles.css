@@ -1,5 +1,12 @@
 body {
    display: flex;
+   flex-direction: column;
    justify-content: center;
    align-items: center;
+}
+header {
+   margin-bottom: 4rem;
+   display: flex;
+   justify-content: end;
+   align-items: end;
 }
