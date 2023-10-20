@@ -1,5 +1,6 @@
 header nav {
    display: flex;
+   border: 1px solid black;
 }
 header p {
    margin: 0.2rem;
@@ -7,9 +8,11 @@ header p {
 }
 main {
    display: flex;
-   border: 1px dotted black;
+   flex-direction: column;
+   border: none;
 }
 main section {
+   width: 40rem;
    padding: 3rem;
    border: 1px solid black;
 }
