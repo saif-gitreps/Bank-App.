@@ -41,5 +41,19 @@ CREATE TABLE withdraw(
 
 show tables;
 
+CREATE TABLE customer(
+	account_no INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name varchar(50) NOT NULL,
+    email varchar(200) NOT NULL UNIQUE,
+	password varchar(200) NOT NULL,
+    balance INT,
+    loan INT,
+    message_id INT NOT NULL
+);
 
+CREATE table message_box(
+	id INT NOT NULL,
+    date datetime default CURRENT_TIMESTAMP,
+    message TEXT
+);
 
