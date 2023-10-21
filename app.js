@@ -10,14 +10,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 app.get("/", (request, response) => {
-   response.render("index");
+   response.render("index", { message: "" });
 });
 
-app.post("/login", (request, response) => {
+app.post("/login", async (request, response) => {
    const loginData = request.body;
-   console.log(loginData);
-   response.redirect("/client");
+
+   if (loginData.userselection == "admin") {
+      const query = `select * from admin where email = ?`;
+      const data = await db.query(query, [loginData.useremail]);
+      const adminData = data[0];
+      if (adminData.length == 0) {
+         response.render("index", { message: "No such administrator exist." });
+      } else if (adminData[0].password !== loginData.userpassword) {
+         response.render("index", { message: "Incorrect password, retry again." });
+      } else {
+         response.redirect("/admin-home");
+      }
+   } else {
+   }
 });
+
 app.get("/client", (request, response) => {
    response.render("client-page");
 });
