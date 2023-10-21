@@ -4,6 +4,10 @@ body {
    justify-content: center;
    align-items: center;
 }
+label {
+   display: inline-block;
+   width: 9rem;
+}
 header {
    margin-bottom: 1rem;
    display: flex;
