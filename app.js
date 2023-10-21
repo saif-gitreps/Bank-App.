@@ -28,6 +28,17 @@ app.post("/login", async (request, response) => {
          response.redirect(`/admin-home/${adminData[0].id}`);
       }
    } else {
+      const data = await db.query("select * from customer where email = ?", [loginData.useremail]);
+      const customerData = data[0];
+      if (customerData.length == 0) {
+         response.render("index", {
+            message: "No such email exists, create an account to login.",
+         });
+      } else if (customerData[0].password != loginData.userpassword) {
+         response.render("index", { message: "Incorrect password, please retry again." });
+      } else {
+         response.redirect(`/client-page/${customerData[0].account_no}`);
+      }
    }
 });
 
@@ -44,6 +55,13 @@ app.get("/admin-home/:id", async (request, response) => {
    const data = await db.query(query, [request.params.id]);
    const adminData = data[0];
    response.render("admin-home", { adminData: adminData[0] });
+});
+
+app.get("/client-page/:id", async (request, response) => {
+   const query = `select * from customer where account_no = ?`;
+   const data = await db.query("select * from customer where account_no = ?", [request.params.id]);
+   const customerData = data[0];
+   response.render("client-page", { customerData: customerData[0] });
 });
 
 // app.use((request, response) => {

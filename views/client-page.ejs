@@ -11,15 +11,15 @@
       <header>
          <nav>
             <form action=""><button>Check notifications</button></form>
-            <p>Name:</p>
-            <p>Account number:</p>
-            <p>Balance:</p>
-            <p>Credit due:</p>
+            <p>Name: <%=customerData.name%></p>
+            <p>Account number:<%=customerData.account_no%></p>
+            <p>Balance:<%=customerData.balance%></p>
+            <p>Credit due:<%=customerData.loan%></p>
          </nav>
       </header>
       <main>
          <section id="client-transfer">
-            <h3>Transfer money</h3>
+            <h3>Transfer money:</h3>
             <form action="">
                <div>
                   <label for="receiveraccount">Receiver Account:</label>
@@ -34,7 +34,7 @@
             </form>
          </section>
          <section id="client-deposit">
-            <h3>Deposit money</h3>
+            <h3>Deposit money:</h3>
             <form action="">
                <div>
                   <label for="">Amount:</label>
@@ -45,7 +45,7 @@
             </form>
          </section>
          <section id="client-withdraw">
-            <h3>Withdraw money</h3>
+            <h3>Withdraw money:</h3>
             <form action="">
                <div>
                   <label for="">Amount:</label>
@@ -56,7 +56,7 @@
             </form>
          </section>
          <section id="client-loan">
-            <h3>Take loan</h3>
+            <h3>Take loan:</h3>
             <form action="">
                <div>
                   <label for="">Amount:</label>
