@@ -9,28 +9,27 @@
    <body>
       <header>
          <nav>
-            <form action="/create-account">
+            <form action="/create-account" method="GET">
                <label for="">Open a new account: </label>
                <button>create account</button>
             </form>
          </nav>
       </header>
       <main>
-         <form action="/login">
+         <form action="/login" method="POST">
             <section>
                <label for="useremail">Email:</label>
-               <input type="email" name="useremail" id="" />
+               <input type="email" name="useremail" id="" required />
             </section>
             <section>
                <label for="password">Password:</label>
-               <input type="password" name="userpassword" id="" />
+               <input type="password" name="userpassword" id="" required />
             </section>
             <section>
                <label for="userselection">login as:</label>
-               <select name="userselection" id="">
-                  <option value="-">-</option>
-                  <option value="admin">admin</option>
+               <select name="userselection" id="" required>
                   <option value="customer">customer</option>
+                  <option value="admin">admin</option>
                </select>
             </section>
             <p id="login-message-box"></p>

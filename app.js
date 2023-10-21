@@ -13,17 +13,13 @@ app.get("/", (request, response) => {
    response.render("index");
 });
 
-app.post("/login", async (request, response) => {
+app.post("/login", (request, response) => {
    const loginData = request.body;
-   try {
-      const connection = await db.getConnection();
-      // Execute your database queries here
-      // Don't forget to release the connection when you're done
-      connection.release();
-   } catch (error) {
-      console.error("Database connection error:", error);
-      response.status(500).send("An error occurred while connecting to the database.");
-   }
+   console.log(loginData);
+   response.redirect("/client");
+});
+app.get("/client", (request, response) => {
+   response.render("client-page");
 });
 
 app.get("/create-account", (request, response) => {
