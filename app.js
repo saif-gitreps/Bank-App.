@@ -21,11 +21,11 @@ app.post("/login", async (request, response) => {
       const data = await db.query(query, [loginData.useremail]);
       const adminData = data[0];
       if (adminData.length == 0) {
-         response.render("index", { message: "No such administrator exist." });
+         response.render("index", { message: "No such Administrator exist." });
       } else if (adminData[0].password !== loginData.userpassword) {
-         response.render("index", { message: "Incorrect password, retry again." });
+         response.render("index", { message: "Incorrect password, please retry again." });
       } else {
-         response.redirect("/admin-home");
+         response.redirect(`/admin-home/${adminData[0].id}`);
       }
    } else {
    }
@@ -37,6 +37,13 @@ app.get("/client", (request, response) => {
 
 app.get("/create-account", (request, response) => {
    response.render("register-page");
+});
+
+app.get("/admin-home/:id", async (request, response) => {
+   const query = `select * from admin where id = ?`;
+   const data = await db.query(query, [request.params.id]);
+   const adminData = data[0];
+   response.render("admin-home", { adminData: adminData[0] });
 });
 
 // app.use((request, response) => {

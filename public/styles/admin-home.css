@@ -8,4 +8,14 @@ h1:hover {
 }
 main {
    border: none;
+   padding: 0;
+}
+header {
+   display: flex;
+   /* flex-direction: column; */
+   align-items: start;
+}
+h3 {
+   padding: 0.8rem;
+   margin: 0;
 }
