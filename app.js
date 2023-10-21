@@ -1,6 +1,7 @@
-const fs = require("fs");
 const path = require("path");
 const express = require("express");
+const db = require("/database/data2.js");
+
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -12,9 +13,7 @@ app.get("/", (request, response) => {
    response.render("index");
 });
 
-app.get("/home", (request, response) => {
-   response.render("index");
-});
+app.post("/", (request, response) => {});
 
 // app.use((request, response) => {
 //    response.status(500).send("<h1>404 web page not found!</h1>");
