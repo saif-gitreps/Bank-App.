@@ -10,26 +10,27 @@
    <body>
       <header>
          <nav>
-            <form action=""><button>Check notifications</button></form>
             <p>Name: <%=customerData.name%></p>
             <p>Account number:<%=customerData.account_no%></p>
             <p>Balance:<%=customerData.balance%></p>
             <p>Credit due:<%=customerData.loan%></p>
+            <form action="/client-messages"><button>Check messages</button></form>
+            <form action="/"><button>Log out</button></form>
          </nav>
       </header>
       <main>
          <section id="client-transfer">
             <h3>Transfer money:</h3>
-            <form action="">
+            <form action="/client-transfer/<%=customerData.account_no%>" method="POST">
                <div>
-                  <label for="receiveraccount">Receiver Account:</label>
+                  <label for="receivingaccount">Receiving Account:</label>
                   <input type="number" name="receiveraccount" />
                </div>
                <div>
                   <label for="transfer">Amount:</label>
                   <input type="number" name="transferamount" id="" />
                </div>
-               <p id="client-message-transfer"></p>
+               <p id="client-message-transfer"><%=m1%></p>
                <button>Transfer</button>
             </form>
          </section>
