@@ -61,12 +61,10 @@ app.get("/client-page/:id", async (request, response) => {
    response.render("client-page", { customerData: customerData[0], m1: "", m2: "", m3: "", m4: "" });
 });
 
-app.post("/client-transfer/:id", async (request, response) => {
+app.post("/client/:id/transfer", async (request, response) => {
    const requestData = request.body;
    const senderData = await db.query("select * from customer where account_no = ?", [request.params.id]);
-   const receiverData = await db.query("select * from customer where account_no = ?", [
-      requestData.receivingaccount,
-   ]);
+   const receiverData = await db.query("select * from customer where account_no = ?", [requestData.receiver]);
    if (receiverData[0].length == 0) {
       return response.render("client-page", {
          customerData: senderData[0][0],
@@ -76,6 +74,25 @@ app.post("/client-transfer/:id", async (request, response) => {
          m4: "",
       });
    }
+   if (senderData[0][0].balance < parseInt(requestData.transferamount)) {
+      return response.render("client-page", {
+         customerData: senderData[0][0],
+         m1: "Insufficient balance",
+         m2: "",
+         m3: "",
+         m4: "",
+      });
+   }
+   await db.query("update customer set balance = ? where account_no = ?", [
+      senderData[0][0].balance - parseInt(requestData.transferamount),
+      request.params.id,
+   ]);
+   await db.query("insert into transfer(sender, receiver, amount) values(?, ?, ?)", [
+      senderData[0][0].account_no,
+      receiverData[0][0].account_no,
+      requestData.transferamount,
+   ]);
+   response.redirect(`client-page/${request.params.id}`);
 });
 
 // app.use((request, response) => {

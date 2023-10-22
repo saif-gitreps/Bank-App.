@@ -21,10 +21,10 @@
       <main>
          <section id="client-transfer">
             <h3>Transfer money:</h3>
-            <form action="/client-transfer/<%=customerData.account_no%>" method="POST">
+            <form action="/client/<%=customerData.account_no%>/transfer" method="POST">
                <div>
                   <label for="receivingaccount">Receiving Account:</label>
-                  <input type="number" name="receiveraccount" />
+                  <input type="number" name="receiver" />
                </div>
                <div>
                   <label for="transfer">Amount:</label>
