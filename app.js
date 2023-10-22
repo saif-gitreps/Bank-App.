@@ -87,12 +87,24 @@ app.post("/client/:id/transfer", async (request, response) => {
       senderData[0][0].balance - parseInt(requestData.transferamount),
       request.params.id,
    ]);
+   await db.query("update customer set balance = ? where account_no = ?", [
+      receiverData[0][0].balance + parseInt(requestData.transferamount),
+      receiverData[0][0].account_no,
+   ]);
    await db.query("insert into transfer(sender, receiver, amount) values(?, ?, ?)", [
       senderData[0][0].account_no,
       receiverData[0][0].account_no,
       requestData.transferamount,
    ]);
-   response.redirect(`client-page/${request.params.id}`);
+   response.redirect(`/client-page/${request.params.id}`);
+});
+
+app.post("/client/:id/deposit", async (request, response) => {
+   await db.query("update customer set balance = ? where account_no = ?", [
+      parseInt(request.body.depositamount) + parseInt(request.body.currentbalance),
+      request.params.id,
+   ]);
+   response.redirect(`/client-page/${request.params.id}`);
 });
 
 // app.use((request, response) => {

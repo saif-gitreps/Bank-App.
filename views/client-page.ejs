@@ -36,10 +36,14 @@
          </section>
          <section id="client-deposit">
             <h3>Deposit money:</h3>
-            <form action="">
+            <form action="/client/<%=customerData.account_no%>/deposit" method="POST">
                <div>
                   <label for="">Amount:</label>
-                  <input type="number" />
+                  <input type="number" name="depositamount" />
+               </div>
+               <div>
+                  <!-- <label for="currentbalance">Balance:</label> -->
+                  <input readonly type="hidden" name="currentbalance" value="<%=customerData.balance%>" />
                </div>
                <p id="client-message-deposit"></p>
                <button>Deposit</button>
