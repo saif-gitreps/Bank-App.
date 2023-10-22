@@ -40,9 +40,6 @@
                <div>
                   <label for="">Amount:</label>
                   <input type="number" name="depositamount" />
-               </div>
-               <div>
-                  <!-- <label for="currentbalance">Balance:</label> -->
                   <input readonly type="hidden" name="currentbalance" value="<%=customerData.balance%>" />
                </div>
                <p id="client-message-deposit"></p>
@@ -51,10 +48,11 @@
          </section>
          <section id="client-withdraw">
             <h3>Withdraw money:</h3>
-            <form action="">
+            <form action="/client/<%=customerData.account_no%>/withdraw" method="POST">
                <div>
                   <label for="">Amount:</label>
-                  <input type="number" />
+                  <input type="number" name="withdrawamount" />
+                  <input readonly type="hidden" name="currentbalance" value="<%=customerData.balance%>" />
                </div>
                <p id="client-message-deposit"></p>
                <button>Withdraw</button>
@@ -62,10 +60,11 @@
          </section>
          <section id="client-loan">
             <h3>Take loan:</h3>
-            <form action="">
+            <form action="/client/<%=customerData.account_no%>/loan" method="POST">
                <div>
                   <label for="">Amount:</label>
-                  <input type="number" />
+                  <input type="number" name="loanamount" />
+                  <input readonly type="hidden" name="currentbalance" value="<%=customerData.balance%>" />
                </div>
                <div>
                   <label for="">Collateral:</label>
@@ -73,7 +72,7 @@
                </div>
                <div>
                   <label for="">Estimated date of repayment:</label>
-                  <input type="date" name="" id="" />
+                  <input type="date" />
                </div>
                <p id="client-message-loan"></p>
                <button>Request loan</button>

@@ -83,30 +83,73 @@ app.post("/client/:id/transfer", async (request, response) => {
          m4: "",
       });
    }
-   await db.query("update customer set balance = ? where account_no = ?", [
-      senderData[0][0].balance - parseInt(requestData.transferamount),
-      request.params.id,
-   ]);
-   await db.query("update customer set balance = ? where account_no = ?", [
-      receiverData[0][0].balance + parseInt(requestData.transferamount),
-      receiverData[0][0].account_no,
-   ]);
-   await db.query("insert into transfer(sender, receiver, amount) values(?, ?, ?)", [
+   // await db.query("update customer set balance = ? where account_no = ?", [
+   //    senderData[0][0].balance - parseInt(requestData.transferamount),
+   //    request.params.id,
+   // ]);
+   // await db.query("update customer set balance = ? where account_no = ?", [
+   //    receiverData[0][0].balance + parseInt(requestData.transferamount),
+   //    receiverData[0][0].account_no,
+   // ]);
+   await db.query("insert into transfer(sender, receiver, amount ,admin_id) values(?, ?, ?)", [
       senderData[0][0].account_no,
       receiverData[0][0].account_no,
       requestData.transferamount,
+      1,
    ]);
    response.redirect(`/client-page/${request.params.id}`);
 });
 
 app.post("/client/:id/deposit", async (request, response) => {
-   await db.query("update customer set balance = ? where account_no = ?", [
-      parseInt(request.body.depositamount) + parseInt(request.body.currentbalance),
-      request.params.id,
+   const customerData = await db.query("select * from customer where account_no = ?", [request.params.id]);
+   // await db.query("update customer set balance = ? where account_no = ?", [
+   //    parseInt(request.body.depositamount) + parseInt(request.body.currentbalance),
+   //    request.params.id,
+   // ]);
+   await db.query("insert into deposit(account, amount, admin_id)", [
+      customer[0][0].account_no,
+      request.body.depositamount,
+      1,
    ]);
    response.redirect(`/client-page/${request.params.id}`);
 });
 
+app.post("/client/:id/withdraw", async (request, response) => {
+   const customerData = await db.query("select * from customer where account_no = ?", [request.params.id]);
+   if (request.body.withdrawamount > request.body.currentbalance) {
+      return response.render("client-page", {
+         customerData: customerData[0][0],
+         m1: "",
+         m2: "",
+         m3: "Insufficient balance",
+         m4: "",
+      });
+   }
+   // await db.query("update customer set balance = ? where account_no = ?", [
+   //    parseInt(request.body.withdrawamount) - parseInt(request.body.currentbalance),
+   //    request.params.id,
+   // ]);
+   await db.query("insert into withdraw(account, amount, admin_id)", [
+      customer[0][0].account_no,
+      request.body.withdrawamount,
+      1,
+   ]);
+   response.redirect(`/client-page/${request.params.id}`);
+});
+
+app.post("/client/:id/loan", async (request, response) => {
+   const customerData = await db.query("select * from customer where account_no = ?", [request.params.id]);
+   // await db.query("update customer set loan = ? where account_no = ?", [
+   //    parseInt(request.body.loanamount) + customerData[0][0].loan,
+   //    customerData[0][0].account_no,
+   // ]);
+   await db.query("insert into loan(account, amount, admin_id)", [
+      customer[0][0].account_no,
+      request.body.withdrawamount,
+      1,
+   ]);
+   response.redirect(`/client-page/${request.params.id}`);
+});
 // app.use((request, response) => {
 //    response.status(500).send("<h1>404 web page not found!</h1>");
 // });
