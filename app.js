@@ -150,6 +150,9 @@ app.post("/client/:id/loan", async (request, response) => {
    ]);
    response.redirect(`/client-page/${request.params.id}`);
 });
+
+app.get("/admin/transfer", (request, response) => {});
+
 // app.use((request, response) => {
 //    response.status(500).send("<h1>404 web page not found!</h1>");
 // });
