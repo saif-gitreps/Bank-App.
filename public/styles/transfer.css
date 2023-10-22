@@ -10,3 +10,8 @@ ul {
 ul h3 {
    margin: 0;
 }
+li {
+   border: 1px solid black;
+   padding: 2rem;
+   margin: 1rem;
+}

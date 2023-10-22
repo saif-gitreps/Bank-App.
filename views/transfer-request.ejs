@@ -15,7 +15,7 @@
          <ul>
             <% if(data.length == 0) {%>
             <h2>No requests.</h2>
-            <%}%> <% else {%> <%for(let item of data) {%>
+            <%} else {%> <%for(let item of data) {%>
             <li>
                <h3>Sender account:<%=item.sender%></h3>
                <h3>Receiver account:<%=item.receiver%></h3>
