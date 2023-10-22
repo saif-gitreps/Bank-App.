@@ -9,13 +9,14 @@
    </head>
    <body>
       <header>
-         <h2>No current requests, All requests have been cleared</h2>
+         <h2>withdraw request</h2>
+         <h2><a href="/admin-home/<%=admin%>">Back</a></h2>
       </header>
       <main>
          <ul>
             <% if(data.length == 0) {%>
             <h2>No requests.</h2>
-            <%}%> <% else {%> <%for(let item of data) {%>
+            <%} else {%> <%for(let item of data) {%>
             <li>
                <h3>Withdraw account:<%=item.account%></h3>
                <h3>Withdraw amount:<%=item.amount%></h3>

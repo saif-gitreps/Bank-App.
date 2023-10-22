@@ -10,12 +10,13 @@
    <body>
       <header>
          <h2>Deposit request.</h2>
+         <h2><a href="/admin-home/<%=admin%>">Back</a></h2>
       </header>
       <main>
          <ul>
             <% if(data.length == 0) {%>
             <h2>No requests.</h2>
-            <%}%> <% else {%> <%for(let item of data) {%>
+            <%} else {%> <%for(let item of data) {%>
             <li>
                <h3>Depositor account:<%=item.account%></h3>
                <h3>Transfer amount:<%=item.amount%></h3>

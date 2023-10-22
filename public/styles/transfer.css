@@ -1,11 +1,12 @@
 main {
    border: none;
 }
-ul {
-   width: 30rem;
-   list-style: none;
-   border: 1px solid black;
+header h2 {
    padding: 1rem;
+}
+ul {
+   width: 40rem;
+   list-style: none;
 }
 ul h3 {
    margin: 0;

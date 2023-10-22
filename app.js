@@ -151,21 +151,21 @@ app.post("/client/:id/loan", async (request, response) => {
    response.redirect(`/client-page/${request.params.id}`);
 });
 
-app.get("/admin/transfer", async (request, response) => {
+app.get("/admin/:id/transfer", async (request, response) => {
    const data = await db.query("select * from transfer");
-   response.render("transfer-request", { data: data[0] });
+   response.render("transfer-request", { data: data[0], admin: request.params.id });
 });
-app.get("/admin/deposit", async (request, response) => {
+app.get("/admin/:id/deposit", async (request, response) => {
    const data = await db.query("select * from deposit");
-   response.render("deposit-request", { data: data[0] });
+   response.render("deposit-request", { data: data[0], admin: request.params.id });
 });
-app.get("/admin/withdraw", async (request, response) => {
+app.get("/admin/:id/withdraw", async (request, response) => {
    const data = await db.query("select * from withdraw");
-   response.render("withdraw-request", { data: data[0] });
+   response.render("withdraw-request", { data: data[0], admin: request.params.id });
 });
-app.get("/admin/loan", async (request, response) => {
+app.get("/admin/:id/loan", async (request, response) => {
    const data = await db.query("select * from loan");
-   response.render("loan-request", { data: data[0] });
+   response.render("loan-request", { data: data[0], admin: request.params.id });
 });
 
 // app.use((request, response) => {
