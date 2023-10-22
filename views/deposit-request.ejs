@@ -9,15 +9,19 @@
    </head>
    <body>
       <header>
-         <h2>No current requests, All requests have been cleared</h2>
+         <h2>Deposit request.</h2>
       </header>
       <main>
          <ul>
+            <% if(data.length == 0) {%>
+            <h2>No requests.</h2>
+            <%}%> <% else {%> <%for(let item of data) {%>
             <li>
-               <h3>Depositor account:</h3>
-               <h3>Transfer amount:</h3>
+               <h3>Depositor account:<%=item.account%></h3>
+               <h3>Transfer amount:<%=item.amount%></h3>
                <form action=""><button>Proceed deposition</button></form>
             </li>
+            <%}%> <%}%>
          </ul>
       </main>
    </body>

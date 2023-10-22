@@ -9,18 +9,20 @@
    </head>
    <body>
       <header>
-         <h2>No current requests, All requests have been cleared</h2>
+         <h2>Loan requests</h2>
       </header>
       <main>
          <ul>
+            <% if(data.length == 0) {%>
+            <h2>No requests.</h2>
+            <%}%> <% else {%> <%for(let item of data) {%>
             <li>
-               <h3>Borrower account:</h3>
-               <h3>Borrower's current credit:</h3>
-               <h3>Asset provided:</h3>
-               <h3>Loan amount:</h3>
+               <h3>Borrower account:<%=item.account%></h3>
+               <h3>Loan amount:<%=item.loan%></h3>
                <form action=""><button>Proceed Loan</button></form>
                <form action=""><button>Decline request</button></form>
             </li>
+            <%}%> <%}%>
          </ul>
       </main>
    </body>

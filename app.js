@@ -151,7 +151,22 @@ app.post("/client/:id/loan", async (request, response) => {
    response.redirect(`/client-page/${request.params.id}`);
 });
 
-app.get("/admin/transfer", (request, response) => {});
+app.get("/admin/transfer", async (request, response) => {
+   const data = await db.query("select * from transfer");
+   response.render("transfer-request", { data: data[0] });
+});
+app.get("/admin/deposit", async (request, response) => {
+   const data = await db.query("select * from deposit");
+   response.render("deposit-request", { data: data[0] });
+});
+app.get("/admin/withdraw", async (request, response) => {
+   const data = await db.query("select * from withdraw");
+   response.render("withdraw-request", { data: data[0] });
+});
+app.get("/admin/loan", async (request, response) => {
+   const data = await db.query("select * from loan");
+   response.render("loan-request", { data: data[0] });
+});
 
 // app.use((request, response) => {
 //    response.status(500).send("<h1>404 web page not found!</h1>");
