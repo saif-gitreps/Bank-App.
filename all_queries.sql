@@ -17,6 +17,7 @@ CREATE TABLE transfer(
     receiver INT NOT NULL,
     amount INT
 );
+alter table transfer add column admin_id INT NOT NULL;
 
 CREATE TABLE loan(
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,3 +58,16 @@ CREATE table message_box(
     message TEXT
 );
 
+insert into 
+	customer(account_no,name,email,password,balance,loan,message_id) 
+	values(102030,'saif','saif2@gmail.com','saif20',0,0,1);
+insert into 
+	customer(name,email,password,balance,loan,message_id) 
+	values('mush','mush@gmail.com','saif20',0,0,2);    
+select * from customer;
+
+select * from transfer;
+select * from customer;
+
+alter table message_box add column serial INT PRIMARY KEY auto_increment;
+desc message_box;

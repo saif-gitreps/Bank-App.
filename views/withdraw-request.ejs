@@ -20,10 +20,10 @@
             <li>
                <h3>Withdraw account:<%=item.account%></h3>
                <h3>Withdraw amount:<%=item.amount%></h3>
-               <form action="/withdraw/<%item.id>%/accept" method="POST">
+               <form action="/withdraw/<%=item.id%>/accept" method="POST">
                   <button>Proceed transaction</button>
                </form>
-               <form action="/withdraw/<%item.id>%/reject" method="POST">
+               <form action="/withdraw/<%=item.id%>/reject" method="POST">
                   <button>Decline request</button>
                </form>
             </li>

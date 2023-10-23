@@ -51,9 +51,10 @@ app.get("/create-account", (request, response) => {
 });
 
 app.get("/admin-home/:id", async (request, response) => {
+   console.log(request.params.id);
    const data = await db.query("select * from admin where id = ?", [request.params.id]);
-   const adminData = data[0];
-   response.render("admin-home", { adminData: adminData[0] });
+   console.log(data);
+   response.render("admin-home", { adminData: data[0][0] });
 });
 
 app.get("/client-page/:id", async (request, response) => {
@@ -92,7 +93,7 @@ app.post("/client/:id/transfer", async (request, response) => {
    //    receiverData[0][0].balance + parseInt(requestData.transferamount),
    //    receiverData[0][0].account_no,
    // ]);
-   await db.query("insert into transfer(sender, receiver, amount ,admin_id) values(?, ?, ?)", [
+   await db.query("insert into transfer(sender, receiver, amount ,admin_id) values(?, ?, ?, ?)", [
       senderData[0][0].account_no,
       receiverData[0][0].account_no,
       requestData.transferamount,
@@ -158,20 +159,19 @@ app.get("/admin/:id/transfer", async (request, response) => {
 });
 app.get("/admin/:id/deposit", async (request, response) => {
    const data = await db.query("select * from deposit");
-   response.render("deposit-request", { data: data[0], admin: request.params.id });
+   response.render("deposit-request", { data: data[0], admin: parseInt(request.params.id) });
 });
 app.get("/admin/:id/withdraw", async (request, response) => {
    const data = await db.query("select * from withdraw");
-   response.render("withdraw-request", { data: data[0], admin: request.params.id });
+   response.render("withdraw-request", { data: data[0], admin: parseInt(request.params.id) });
 });
 app.get("/admin/:id/loan", async (request, response) => {
    const data = await db.query("select * from loan");
-   response.render("loan-request", { data: data[0], admin: request.params.id });
+   response.render("loan-request", { data: data[0], admin: parseInt(request.params.id) });
 });
 
 app.post("/transfer/:id/accept", async (request, response) => {
    const transferData = await db.query("select * from transfer where id = ?", [request.params.id]);
-   console.log(transferData);
    const senderBalance = await db.query("select balance from customer where account_no = ?", [
       transferData[0][0].sender,
    ]);
@@ -191,7 +191,7 @@ app.post("/transfer/:id/accept", async (request, response) => {
       transferData[0][0].sender,
       `Transaction amount ${transferData[0][0].amount} was successfully sent to ${transferData[0][0].receiver}`,
    ]);
-   response.redirect(`/admin/${request.query.admin}/transfer`);
+   response.redirect(`/admin/${transferData[0][0].admin_id}/transfer`);
 });
 
 // app.use((request, response) => {

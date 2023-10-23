@@ -20,7 +20,7 @@
             <li>
                <h3>Depositor account:<%=item.account%></h3>
                <h3>Transfer amount:<%=item.amount%></h3>
-               <form action="/deposit/<%item.id>%/accept" method="POST">
+               <form action="/deposit/<%=item.id%>/accept" method="POST">
                   <button>Proceed deposition</button>
                </form>
             </li>
