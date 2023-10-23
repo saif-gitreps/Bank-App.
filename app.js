@@ -141,10 +141,6 @@ app.post("/client/:id/withdraw", async (request, response) => {
 
 app.post("/client/:id/loan", async (request, response) => {
    const customerData = await db.query("select * from customer where account_no = ?", [request.params.id]);
-   // await db.query("update customer set loan = ? where account_no = ?", [
-   //    parseInt(request.body.loanamount) + customerData[0][0].loan,
-   //    customerData[0][0].account_no,
-   // ]);
    await db.query("insert into loan(account, amount, admin_id) values(?,?,?)", [
       customerData[0][0].account_no,
       request.body.withdrawamount,
