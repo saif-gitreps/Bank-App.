@@ -85,14 +85,6 @@ app.post("/client/:id/transfer", async (request, response) => {
          m4: "",
       });
    }
-   // await db.query("update customer set balance = ? where account_no = ?", [
-   //    senderData[0][0].balance - parseInt(requestData.transferamount),
-   //    request.params.id,
-   // ]);
-   // await db.query("update customer set balance = ? where account_no = ?", [
-   //    receiverData[0][0].balance + parseInt(requestData.transferamount),
-   //    receiverData[0][0].account_no,
-   // ]);
    await db.query("insert into transfer(sender, receiver, amount ,admin_id) values(?, ?, ?, ?)", [
       senderData[0][0].account_no,
       receiverData[0][0].account_no,
@@ -104,10 +96,6 @@ app.post("/client/:id/transfer", async (request, response) => {
 
 app.post("/client/:id/deposit", async (request, response) => {
    const customerData = await db.query("select * from customer where account_no = ?", [request.params.id]);
-   // await db.query("update customer set balance = ? where account_no = ?", [
-   //    parseInt(request.body.depositamount) + parseInt(request.body.currentbalance),
-   //    request.params.id,
-   // ]);
    await db.query("insert into deposit(account, amount, admin_id) values(?,?,?)", [
       customerData[0][0].account_no,
       request.body.depositamount,
@@ -127,10 +115,6 @@ app.post("/client/:id/withdraw", async (request, response) => {
          m4: "",
       });
    }
-   // await db.query("update customer set balance = ? where account_no = ?", [
-   //    parseInt(request.body.withdrawamount) - parseInt(request.body.currentbalance),
-   //    request.params.id,
-   // ]);
    await db.query("insert into withdraw(account, amount, admin_id) values(?,?,?)", [
       customerData[0][0].account_no,
       request.body.withdrawamount,
