@@ -18,7 +18,9 @@ app.post("/login", async (request, response) => {
    const loginData = request.body;
 
    if (loginData.userselection == "admin") {
-      const data = await db.query("select * from admin where email = ?", [loginData.useremail]);
+      const data = await db.query("select * from admin where email = ?", [
+         loginData.useremail,
+      ]);
       const adminData = data[0];
       if (adminData.length == 0) {
          response.render("index", { message: "No such Administrator exist." });
@@ -28,7 +30,9 @@ app.post("/login", async (request, response) => {
          response.redirect(`/admin-home/${adminData[0].id}`);
       }
    } else {
-      const data = await db.query("select * from customer where email = ?", [loginData.useremail]);
+      const data = await db.query("select * from customer where email = ?", [
+         loginData.useremail,
+      ]);
       const customerData = data[0];
       if (customerData.length == 0) {
          response.render("index", {
@@ -58,15 +62,27 @@ app.get("/admin-home/:id", async (request, response) => {
 });
 
 app.get("/client-page/:id", async (request, response) => {
-   const data = await db.query("select * from customer where account_no = ?", [request.params.id]);
+   const data = await db.query("select * from customer where account_no = ?", [
+      request.params.id,
+   ]);
    const customerData = data[0];
-   response.render("client-page", { customerData: customerData[0], m1: "", m2: "", m3: "", m4: "" });
+   response.render("client-page", {
+      customerData: customerData[0],
+      m1: "",
+      m2: "",
+      m3: "",
+      m4: "",
+   });
 });
 
 app.post("/client/:id/transfer", async (request, response) => {
    const requestData = request.body;
-   const senderData = await db.query("select * from customer where account_no = ?", [request.params.id]);
-   const receiverData = await db.query("select * from customer where account_no = ?", [requestData.receiver]);
+   const senderData = await db.query("select * from customer where account_no = ?", [
+      request.params.id,
+   ]);
+   const receiverData = await db.query("select * from customer where account_no = ?", [
+      requestData.receiver,
+   ]);
    if (receiverData[0].length == 0) {
       return response.render("client-page", {
          customerData: senderData[0][0],
@@ -85,17 +101,22 @@ app.post("/client/:id/transfer", async (request, response) => {
          m4: "",
       });
    }
-   await db.query("insert into transfer(sender, receiver, amount ,admin_id) values(?, ?, ?, ?)", [
-      senderData[0][0].account_no,
-      receiverData[0][0].account_no,
-      requestData.transferamount,
-      1,
-   ]);
+   await db.query(
+      "insert into transfer(sender, receiver, amount ,admin_id) values(?, ?, ?, ?)",
+      [
+         senderData[0][0].account_no,
+         receiverData[0][0].account_no,
+         requestData.transferamount,
+         1,
+      ]
+   );
    response.redirect(`/client-page/${request.params.id}`);
 });
 
 app.post("/client/:id/deposit", async (request, response) => {
-   const customerData = await db.query("select * from customer where account_no = ?", [request.params.id]);
+   const customerData = await db.query("select * from customer where account_no = ?", [
+      request.params.id,
+   ]);
    await db.query("insert into deposit(account, amount, admin_id) values(?,?,?)", [
       customerData[0][0].account_no,
       request.body.depositamount,
@@ -105,7 +126,9 @@ app.post("/client/:id/deposit", async (request, response) => {
 });
 
 app.post("/client/:id/withdraw", async (request, response) => {
-   const customerData = await db.query("select * from customer where account_no = ?", [request.params.id]);
+   const customerData = await db.query("select * from customer where account_no = ?", [
+      request.params.id,
+   ]);
    if (request.body.withdrawamount > request.body.currentbalance) {
       return response.render("client-page", {
          customerData: customerData[0][0],
@@ -124,7 +147,9 @@ app.post("/client/:id/withdraw", async (request, response) => {
 });
 
 app.post("/client/:id/loan", async (request, response) => {
-   const customerData = await db.query("select * from customer where account_no = ?", [request.params.id]);
+   const customerData = await db.query("select * from customer where account_no = ?", [
+      request.params.id,
+   ]);
    await db.query("insert into loan(account, amount, admin_id) values(?,?,?)", [
       customerData[0][0].account_no,
       request.body.withdrawamount,
@@ -139,11 +164,17 @@ app.get("/admin/:id/transfer", async (request, response) => {
 });
 app.get("/admin/:id/deposit", async (request, response) => {
    const data = await db.query("select * from deposit");
-   response.render("deposit-request", { data: data[0], admin: parseInt(request.params.id) });
+   response.render("deposit-request", {
+      data: data[0],
+      admin: parseInt(request.params.id),
+   });
 });
 app.get("/admin/:id/withdraw", async (request, response) => {
    const data = await db.query("select * from withdraw");
-   response.render("withdraw-request", { data: data[0], admin: parseInt(request.params.id) });
+   response.render("withdraw-request", {
+      data: data[0],
+      admin: parseInt(request.params.id),
+   });
 });
 app.get("/admin/:id/loan", async (request, response) => {
    const data = await db.query("select * from loan");
@@ -151,13 +182,17 @@ app.get("/admin/:id/loan", async (request, response) => {
 });
 
 app.post("/transfer/:id/accept", async (request, response) => {
-   const transferData = await db.query("select * from transfer where id = ?", [request.params.id]);
-   const senderBalance = await db.query("select balance from customer where account_no = ?", [
-      transferData[0][0].sender,
+   const transferData = await db.query("select * from transfer where id = ?", [
+      request.params.id,
    ]);
-   const receiverBalance = await db.query("select balance from customer where account_no = ?", [
-      transferData[0][0].receiver,
-   ]);
+   const senderBalance = await db.query(
+      "select balance from customer where account_no = ?",
+      [transferData[0][0].sender]
+   );
+   const receiverBalance = await db.query(
+      "select balance from customer where account_no = ?",
+      [transferData[0][0].receiver]
+   );
    await db.query("update customer set balance = ? where account_no = ? ", [
       senderBalance[0][0].balance - transferData[0][0].amount,
       transferData[0][0].sender,
@@ -171,7 +206,116 @@ app.post("/transfer/:id/accept", async (request, response) => {
       transferData[0][0].sender,
       `Transaction amount ${transferData[0][0].amount} was successfully sent to ${transferData[0][0].receiver}`,
    ]);
+   await db.query("insert into message_box(id, message) values(?,?)", [
+      transferData[0][0].receiver,
+      `Transaction amount ${transferData[0][0].amount} was successfully deposited in your account from ${transferData[0][0].sender}`,
+   ]);
    response.redirect(`/admin/${transferData[0][0].admin_id}/transfer`);
+});
+
+app.post("/transfer/:id/reject", async (request, response) => {
+   const transferData = await db.query("select * from transfer where id = ?", [
+      request.params.id,
+   ]);
+   await db.query("delete from transfer where id = ?", [request.params.id]);
+   await db.query("insert into message_box(id, message) values(?,?)", [
+      transferData[0][0].sender,
+      `Apologies. Transaction amount of${transferData[0][0].amount} to ${transferData[0][0].receiver} was unsuccessful`,
+   ]);
+   response.redirect(`/admin/${transferData[0][0].admin_id}/transfer`);
+});
+
+app.post("/deposit/:id/accept", async (request, response) => {
+   const depositData = await db.query("select * from deposit where id = ?", [
+      request.params.id,
+   ]);
+   const customerData = await db.query(
+      "select name,balance from customer where account_no = ?",
+      [depositData[0][0].account]
+   );
+   const adminData = await db.query("select * from admin where id = ?", [
+      depositData[0][0].admin_id,
+   ]);
+   await db.query("update admin set total_bank_deposits = ? where id = ?", [
+      adminData[0][0].total_bank_deposits + depositData[0][0].amount,
+      adminData[0][0].id,
+   ]);
+   await db.query("update customer set balance = ? where account_no = ? ", [
+      customerData[0][0].balance + depositData[0][0].amount,
+      depositData[0][0].account,
+   ]);
+   await db.query("delete from deposit where id = ?", [request.params.id]);
+   await db.query("insert into message_box(id, message) values(?,?)", [
+      depositData[0][0].account,
+      `Dear ${customerData[0][0].name}, amount ${depositData[0][0].amount} was successfully deposited into your account`,
+   ]);
+   response.redirect(`/admin/${depositData[0][0].admin_id}/transfer`);
+});
+
+app.post("/loan/:id/accept", async (request, response) => {
+   const loanData = await db.query("select * from deposit where id = ?", [
+      request.params.id,
+   ]);
+   const customerData = await db.query(
+      "select name,loan from customer where account_no = ?",
+      [loanData[0][0].account]
+   );
+   const adminData = await db.query("select * from admin where id = ?", [
+      loanData[0][0].admin_id,
+   ]);
+   await db.query("update admin set total_lent_amount = ? where id = ?", [
+      adminData[0][0].total_lent_amount + loanData[0][0].amount,
+      adminData[0][0].id,
+   ]);
+   await db.query("update customer set loan = ? where account_no = ? ", [
+      customerData[0][0].loan + loanData[0][0].amount,
+      loanData[0][0].account,
+   ]);
+   await db.query("delete from loan where id = ?", [request.params.id]);
+   await db.query("insert into message_box(id, message) values(?,?)", [
+      loanData[0][0].account,
+      `Dear ${customerData[0][0].name}, loan of ${loanData[0][0].amount} was successfully debited into your account`,
+   ]);
+   response.redirect(`/admin/${loanData[0][0].admin_id}/transfer`);
+});
+
+app.post("/loan/:id/accept", async (request, response) => {
+   const loanData = await db.query("select * from loan where id = ?", [
+      request.params.id,
+   ]);
+   const customerData = await db.query(
+      "select name,loan from customer where account_no = ?",
+      [loanData[0][0].account]
+   );
+   const adminData = await db.query("select * from admin where id = ?", [
+      loanData[0][0].admin_id,
+   ]);
+   await db.query("update admin set total_lent_amount = ? where id = ?", [
+      adminData[0][0].total_lent_amount + loanData[0][0].amount,
+      adminData[0][0].id,
+   ]);
+   await db.query("update customer set loan = ? where account_no = ? ", [
+      customerData[0][0].loan + loanData[0][0].amount,
+      loanData[0][0].account,
+   ]);
+   await db.query("delete from loan where id = ?", [request.params.id]);
+   await db.query("insert into message_box(id, message) values(?,?)", [
+      loanData[0][0].account,
+      `Dear ${customerData[0][0].name}, loan of ${loanData[0][0].amount} was successfully debited into your account`,
+   ]);
+   response.redirect(`/admin/${loanData[0][0].admin_id}/transfer`);
+});
+
+app.post("/loan/:id/reject", async (request, response) => {
+   const loanData = await db.query("select * from loan where id = ?", [
+      request.params.id,
+   ]);
+   await db.query("delete from loan where id = ?", [request.params.id]);
+   await db.query("insert into message_box(id, message) values(?,?)", [
+      loanData[0][0].account,
+      `Dear user,your request of lending ${loanData[0][0].amount} was not accepted.`,
+   ]);
+   response.redirect(`/admin/${loanData[0][0].admin_id}/transfer`);
 });
 
 // app.use((request, response) => {
