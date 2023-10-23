@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const db = require("./database/data2");
+const { AsyncResource } = require("async_hooks");
 
 const app = express();
 
@@ -106,8 +107,8 @@ app.post("/client/:id/deposit", async (request, response) => {
    //    parseInt(request.body.depositamount) + parseInt(request.body.currentbalance),
    //    request.params.id,
    // ]);
-   await db.query("insert into deposit(account, amount, admin_id)", [
-      customer[0][0].account_no,
+   await db.query("insert into deposit(account, amount, admin_id) values(?,?,?)", [
+      customerData[0][0].account_no,
       request.body.depositamount,
       1,
    ]);
@@ -129,8 +130,8 @@ app.post("/client/:id/withdraw", async (request, response) => {
    //    parseInt(request.body.withdrawamount) - parseInt(request.body.currentbalance),
    //    request.params.id,
    // ]);
-   await db.query("insert into withdraw(account, amount, admin_id)", [
-      customer[0][0].account_no,
+   await db.query("insert into withdraw(account, amount, admin_id) values(?,?,?)", [
+      customerData[0][0].account_no,
       request.body.withdrawamount,
       1,
    ]);
@@ -143,8 +144,8 @@ app.post("/client/:id/loan", async (request, response) => {
    //    parseInt(request.body.loanamount) + customerData[0][0].loan,
    //    customerData[0][0].account_no,
    // ]);
-   await db.query("insert into loan(account, amount, admin_id)", [
-      customer[0][0].account_no,
+   await db.query("insert into loan(account, amount, admin_id) values(?,?,?)", [
+      customerData[0][0].account_no,
       request.body.withdrawamount,
       1,
    ]);
@@ -166,6 +167,31 @@ app.get("/admin/:id/withdraw", async (request, response) => {
 app.get("/admin/:id/loan", async (request, response) => {
    const data = await db.query("select * from loan");
    response.render("loan-request", { data: data[0], admin: request.params.id });
+});
+
+app.post("/transfer/:id/accept", async (request, response) => {
+   const transferData = await db.query("select * from transfer where id = ?", [request.params.id]);
+   console.log(transferData);
+   const senderBalance = await db.query("select balance from customer where account_no = ?", [
+      transferData[0][0].sender,
+   ]);
+   const receiverBalance = await db.query("select balance from customer where account_no = ?", [
+      transferData[0][0].receiver,
+   ]);
+   await db.query("update customer set balance = ? where account_no = ? ", [
+      senderBalance[0][0].balance - transferData[0][0].amount,
+      transferData[0][0].sender,
+   ]);
+   await db.query("update customer set balance = ? where account_no = ? ", [
+      receiverBalance[0][0].balance + transferData[0][0].amount,
+      transferData[0][0].receiver,
+   ]);
+   await db.query("delete from transfer where id = ?", [request.params.id]);
+   await db.query("insert into message_box(id, message) values(?,?)", [
+      transferData[0][0].sender,
+      `Transaction amount ${transferData[0][0].amount} was successfully sent to ${transferData[0][0].receiver}`,
+   ]);
+   response.redirect(`/admin/${request.query.admin}/transfer`);
 });
 
 // app.use((request, response) => {

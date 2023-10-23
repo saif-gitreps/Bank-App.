@@ -21,8 +21,14 @@
                <h3>Sender account:<%=item.sender%></h3>
                <h3>Receiver account:<%=item.receiver%></h3>
                <h3>Transfer amount:<%=item.amount%></h3>
-               <form action=""><button>Proceed transfer</button></form>
-               <form action=""><button>Decline transfer</button></form>
+               <form action="/transfer/<%=item.id%>/accept" method="POST">
+                  <button>Proceed transfer</button>
+                  <input type="hidden" name="admin" value="<%=admin%>" />
+               </form>
+               <form action="/transfer/<%=item.id%>/reject" method="POST">
+                  <button>Decline transfer</button>
+                  <input type="hidden" name="admin" value="<%=admin%>" />
+               </form>
             </li>
             <%}%> <%}%>
          </ul>
