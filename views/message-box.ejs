@@ -9,15 +9,22 @@
    </head>
    <body>
       <header>
-         <h2>Sorry, no messages here!</h2>
+         <h3><a href="/client-page/<%=account_no%>">Back</a></h3>
       </header>
       <main>
          <ul>
+            <% if(messageData.length == 0) {%>
+            <h2>No messages.</h2>
+            <%} else {%> <%for(let item of messageData) {%>
             <li>
-               <h3>Date:</h3>
-               <h3>Message:</h3>
-               <form action=""><button>Delete</button></form>
+               <h3>Date:<%=item.date%></h3>
+               <h3>Message:<%=item.message%></h3>
+               <form action="/client/message/<%=item.serial%>/delete" method="POST">
+                  <input type="hidden" name="account_no" value="<%=item.id%>" />
+                  <button>Delete</button>
+               </form>
             </li>
+            <%}%> <%}%>
          </ul>
       </main>
    </body>

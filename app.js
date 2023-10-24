@@ -345,7 +345,7 @@ app.post("/withdraw/:id/accept", async (request, response) => {
 });
 
 app.post("/withdraw/:id/reject", async (request, response) => {
-   const withdrawData = await db.query("select * from loan where id = ?", [
+   const withdrawData = await db.query("select * from withdraw where id = ?", [
       request.params.id,
    ]);
    await db.query("delete from withdraw where id = ?", [request.params.id]);
@@ -354,6 +354,22 @@ app.post("/withdraw/:id/reject", async (request, response) => {
       `Dear user,your request of withdrawing ${withdrawData[0][0].amount} was not accepted.`,
    ]);
    response.redirect(`/admin/${withdrawData[0][0].admin_id}/withdraw`);
+});
+
+app.get("/client/message/:id", async (request, response) => {
+   const messageData = await db.query("select * from message_box where id = ?", [
+      request.params.id,
+   ]);
+   // dont ask why i am sending 1d array thas cuz i got a whole lotta messages aight ?
+   response.render("message-box", {
+      messageData: messageData[0],
+      account_no: request.params.id,
+   });
+});
+
+app.post("/client/message/:id/delete", async (request, response) => {
+   await db.query("delete from message_box where serial = ?", [request.params.id]);
+   response.redirect(`/client/message/${request.body.account_no}`);
 });
 
 // app.use((request, response) => {

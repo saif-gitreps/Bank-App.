@@ -14,8 +14,10 @@
             <p>Account number:<%=customerData.account_no%></p>
             <p>Balance:<%=customerData.balance%></p>
             <p>Credit due:<%=customerData.loan%></p>
-            <form action="/client-messages"><button>Check messages</button></form>
-            <form action="/"><button>Log out</button></form>
+            <form action="/client/message/<%=customerData.account_no%>" method="GET">
+               <button>Check messages</button>
+            </form>
+            <form action="/" method="GET"><button>Log out</button></form>
          </nav>
       </header>
       <main>
