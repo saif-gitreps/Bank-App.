@@ -127,7 +127,7 @@ app.post("/client/:id/withdraw", async (request, response) => {
    const customerData = await db.query("select * from customer where account_no = ?", [
       request.params.id,
    ]);
-   if (request.body.withdrawamount > request.body.currentbalance) {
+   if (parseInt(request.body.withdrawamount) > customerData[0][0].balance) {
       return response.render("client-page", {
          customerData: customerData[0][0],
          m1: "",

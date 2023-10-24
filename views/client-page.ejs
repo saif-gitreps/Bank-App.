@@ -40,9 +40,14 @@
                <div>
                   <label for="">Amount:</label>
                   <input type="number" name="depositamount" />
-                  <input readonly type="hidden" name="currentbalance" value="<%=customerData.balance%>" />
+                  <input
+                     readonly
+                     type="hidden"
+                     name="currentbalance"
+                     value="<%=customerData.balance%>"
+                  />
                </div>
-               <p id="client-message-deposit"></p>
+               <p id="client-message-deposit"><%=m2%></p>
                <button>Deposit</button>
             </form>
          </section>
@@ -52,9 +57,14 @@
                <div>
                   <label for="">Amount:</label>
                   <input type="number" name="withdrawamount" />
-                  <input readonly type="hidden" name="currentbalance" value="<%=customerData.balance%>" />
+                  <input
+                     readonly
+                     type="hidden"
+                     name="currentbalance"
+                     value="<%=customerData.balance%>"
+                  />
                </div>
-               <p id="client-message-deposit"></p>
+               <p id="client-message-deposit"><%=m3%></p>
                <button>Withdraw</button>
             </form>
          </section>
@@ -64,7 +74,12 @@
                <div>
                   <label for="">Amount:</label>
                   <input type="number" name="loanamount" />
-                  <input readonly type="hidden" name="currentbalance" value="<%=customerData.balance%>" />
+                  <input
+                     readonly
+                     type="hidden"
+                     name="currentbalance"
+                     value="<%=customerData.balance%>"
+                  />
                </div>
                <div>
                   <label for="">Collateral:</label>
@@ -74,7 +89,7 @@
                   <label for="">Estimated date of repayment:</label>
                   <input type="date" />
                </div>
-               <p id="client-message-loan"></p>
+               <p id="client-message-loan"><%=m4%></p>
                <button>Request loan</button>
             </form>
          </section>
