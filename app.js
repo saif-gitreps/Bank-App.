@@ -249,7 +249,7 @@ app.post("/deposit/:id/accept", async (request, response) => {
       depositData[0][0].account,
       `Dear ${customerData[0][0].name}, amount ${depositData[0][0].amount} was successfully deposited into your account`,
    ]);
-   response.redirect(`/admin/${depositData[0][0].admin_id}/transfer`);
+   response.redirect(`/admin/${depositData[0][0].admin_id}/deposit`);
 });
 
 app.post("/loan/:id/accept", async (request, response) => {
