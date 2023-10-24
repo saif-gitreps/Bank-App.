@@ -11,40 +11,40 @@
          <h2>Submit information</h2>
       </header>
       <main>
-         <form action="">
+         <form action="/create-account" method="POST">
             <div>
                <label for="username">Name:</label>
-               <input type="text" />
+               <input type="text" name="username" id="username" />
             </div>
             <div>
                <label for="useraddress">Address:</label>
-               <input type="text" />
+               <input type="text" name="useraddress" id="useraddress" />
             </div>
             <div>
                <label for="useremail">Email:</label>
-               <input type="email" />
+               <input type="email" name="useremail" id="useremail" />
             </div>
             <div>
-               <label for="userpassword">Password:</label>
-               <input type="password" />
+               <label for="userpassword1">Password:</label>
+               <input type="password" name="userpassword1" id="userpassword1" />
             </div>
             <div>
-               <label for="userpassword">Confirm pass:</label>
-               <input type="password" />
+               <label for="userpassword2">Confirm pass:</label>
+               <input type="password" name="userpassword2" id="userpassword2" />
             </div>
             <div>
                <label for="userdob">Date of birth</label>
-               <input type="date" />
+               <input type="date" name="userdob" id="userdob" />
             </div>
             <div>
                <label for="terms">Agree with terms and condition:</label>
-               <input type="checkbox" required />
+               <input type="checkbox" name="terms" id="terms" required />
             </div>
-            <p id="register-message-box"></p>
-            <button>sign up</button>
+            <p id="register-message-box"><%=m1%></p>
+            <button>Sign up</button>
          </form>
       </main>
-      <form action="/">
+      <form action="/" method="GET">
          <label>Have an account?</label>
          <button>Login</button>
       </form>
