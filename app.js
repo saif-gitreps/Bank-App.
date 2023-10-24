@@ -55,9 +55,7 @@ app.get("/create-account", (request, response) => {
 });
 
 app.get("/admin-home/:id", async (request, response) => {
-   console.log(request.params.id);
    const data = await db.query("select * from admin where id = ?", [request.params.id]);
-   console.log(data);
    response.render("admin-home", { adminData: data[0][0] });
 });
 
@@ -152,7 +150,7 @@ app.post("/client/:id/loan", async (request, response) => {
    ]);
    await db.query("insert into loan(account, amount, admin_id) values(?,?,?)", [
       customerData[0][0].account_no,
-      request.body.withdrawamount,
+      request.body.loanamount,
       1,
    ]);
    response.redirect(`/client-page/${request.params.id}`);
@@ -178,6 +176,7 @@ app.get("/admin/:id/withdraw", async (request, response) => {
 });
 app.get("/admin/:id/loan", async (request, response) => {
    const data = await db.query("select * from loan");
+   console.log(data);
    response.render("loan-request", { data: data[0], admin: parseInt(request.params.id) });
 });
 
@@ -276,7 +275,7 @@ app.post("/loan/:id/accept", async (request, response) => {
       loanData[0][0].account,
       `Dear ${customerData[0][0].name}, loan of ${loanData[0][0].amount} was successfully debited into your account`,
    ]);
-   response.redirect(`/admin/${loanData[0][0].admin_id}/transfer`);
+   response.redirect(`/admin/${loanData[0][0].admin_id}/loan`);
 });
 
 app.post("/loan/:id/reject", async (request, response) => {
@@ -288,7 +287,7 @@ app.post("/loan/:id/reject", async (request, response) => {
       loanData[0][0].account,
       `Dear user,your request of lending ${loanData[0][0].amount} was not accepted.`,
    ]);
-   response.redirect(`/admin/${loanData[0][0].admin_id}/transfer`);
+   response.redirect(`/admin/${loanData[0][0].admin_id}/loan`);
 });
 
 app.post("/withdraw/:id/accept", async (request, response) => {
@@ -316,7 +315,7 @@ app.post("/withdraw/:id/accept", async (request, response) => {
       withdrawData[0][0].account,
       `Dear ${customerData[0][0].name}, Your withdraw request${withdrawData[0][0].amount} was successful, please collect the cash`,
    ]);
-   response.redirect(`/admin/${withdrawData[0][0].admin_id}/transfer`);
+   response.redirect(`/admin/${withdrawData[0][0].admin_id}/withdraw`);
 });
 
 app.post("/withdraw/:id/reject", async (request, response) => {
@@ -328,7 +327,7 @@ app.post("/withdraw/:id/reject", async (request, response) => {
       withdrawData[0][0].account,
       `Dear user,your request of withdrawing ${withdrawData[0][0].amount} was not accepted.`,
    ]);
-   response.redirect(`/admin/${withdrawData[0][0].admin_id}/transfer`);
+   response.redirect(`/admin/${withdrawData[0][0].admin_id}/withdraw`);
 });
 
 // app.use((request, response) => {

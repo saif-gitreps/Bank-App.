@@ -19,8 +19,10 @@
             <%} else {%> <%for(let item of data) {%>
             <li>
                <h3>Borrower account:<%=item.account%></h3>
-               <h3>Loan amount:<%=item.loan%></h3>
-               <form action="/loan/<%=item.id%>/accept" method="POST"><button>Proceed Loan</button></form>
+               <h3>Loan amount:<%=item.amount%></h3>
+               <form action="/loan/<%=item.id%>/accept" method="POST">
+                  <button>Proceed Loan</button>
+               </form>
                <form action="/loan/<%=item.id%>/reject" method="POST">
                   <button>Decline request</button>
                </form>
