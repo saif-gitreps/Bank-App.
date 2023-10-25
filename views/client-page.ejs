@@ -12,8 +12,8 @@
          <nav>
             <p>Name: <%=customerData.name%></p>
             <p>Account number:<%=customerData.account_no%></p>
-            <p>Balance:<%=customerData.balance%></p>
-            <p>Credit due:<%=customerData.loan%></p>
+            <p>Balance:<%=customerData.balance%> AED</p>
+            <p>Credit due:<%=customerData.loan%> AED</p>
             <form action="/client/message/<%=customerData.account_no%>" method="GET">
                <button>Check messages</button>
             </form>

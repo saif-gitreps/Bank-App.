@@ -25,7 +25,7 @@ router.post("/deposit/:id/accept", async (request, response) => {
    await db.query("delete from deposit where id = ?", [request.params.id]);
    await db.query("insert into message_box(id, message) values(?,?)", [
       depositData[0][0].account,
-      `Dear ${customerData[0][0].name}, amount ${depositData[0][0].amount} was successfully deposited into your account`,
+      `Dear ${customerData[0][0].name}, amount ${depositData[0][0].amount} AED was successfully deposited into your account`,
    ]);
    response.redirect(`/admin/${depositData[0][0].admin_id}/deposit`);
 });

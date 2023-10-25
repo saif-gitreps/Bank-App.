@@ -26,7 +26,7 @@ router.post("/withdraw/:id/accept", async (request, response) => {
    // here id in message_box is account_no , so dont get confused lmao.
    await db.query("insert into message_box(id, message) values(?,?)", [
       withdrawData[0][0].account,
-      `Dear ${customerData[0][0].name}, Your withdraw request${withdrawData[0][0].amount}AED was successful, please collect the cash`,
+      `Dear ${customerData[0][0].name}, Your withdraw request${withdrawData[0][0].amount} AED was successful, please collect the cash`,
    ]);
    response.redirect(`/admin/${withdrawData[0][0].admin_id}/withdraw`);
 });
@@ -38,7 +38,7 @@ router.post("/withdraw/:id/reject", async (request, response) => {
    await db.query("delete from withdraw where id = ?", [request.params.id]);
    await db.query("insert into message_box(id, message) values(?,?)", [
       withdrawData[0][0].account,
-      `Dear user,your request of withdrawing ${withdrawData[0][0].amount}AED was not accepted.`,
+      `Dear user,your request of withdrawing ${withdrawData[0][0].amount} AED was not accepted.`,
    ]);
    response.redirect(`/admin/${withdrawData[0][0].admin_id}/withdraw`);
 });

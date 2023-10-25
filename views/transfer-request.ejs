@@ -4,7 +4,6 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Transfer requests</title>
-      <link rel="stylesheet" href="/styles/styles.css" />
       <link rel="stylesheet" href="/styles/transfer.css" />
    </head>
    <body>
@@ -20,7 +19,7 @@
             <li>
                <h3>Sender account:<%=item.sender%></h3>
                <h3>Receiver account:<%=item.receiver%></h3>
-               <h3>Transfer amount:<%=item.amount%></h3>
+               <h3>Transfer amount:<%=item.amount%> AED</h3>
                <form action="/transfer/<%=item.id%>/accept" method="POST">
                   <button>Proceed transfer</button>
                   <input type="hidden" name="admin" value="<%=admin%>" />

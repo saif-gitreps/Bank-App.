@@ -4,9 +4,10 @@ const db = require("../database/data2");
 const router = express.Router();
 
 router.get("/client/message/:id", async (request, response) => {
-   const messageData = await db.query("select * from message_box where id = ?", [
-      request.params.id,
-   ]);
+   const messageData = await db.query(
+      "select * from message_box where id = ? order by serial DESC",
+      [request.params.id]
+   );
    // dont ask why i am sending 1D array thas cuz i got a whole lotta messages aight ?
    response.render("message-box", {
       messageData: messageData[0],

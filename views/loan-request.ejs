@@ -4,7 +4,6 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Loan requests</title>
-      <link rel="stylesheet" href="/styles/styles.css" />
       <link rel="stylesheet" href="/styles/transfer.css" />
    </head>
    <body>
@@ -19,7 +18,7 @@
             <%} else {%> <%for(let item of data) {%>
             <li>
                <h3>Borrower account:<%=item.account%></h3>
-               <h3>Loan amount:<%=item.amount%></h3>
+               <h3>Loan amount:<%=item.amount%> AED</h3>
                <form action="/loan/<%=item.id%>/accept" method="POST">
                   <button>Proceed Loan</button>
                </form>

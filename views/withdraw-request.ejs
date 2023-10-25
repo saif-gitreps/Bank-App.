@@ -4,7 +4,6 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Withdraw requests</title>
-      <link rel="stylesheet" href="/styles/styles.css" />
       <link rel="stylesheet" href="/styles/transfer.css" />
    </head>
    <body>
@@ -19,7 +18,7 @@
             <%} else {%> <%for(let item of data) {%>
             <li>
                <h3>Withdraw account:<%=item.account%></h3>
-               <h3>Withdraw amount:<%=item.amount%></h3>
+               <h3>Withdraw amount:<%=item.amount%> AED</h3>
                <form action="/withdraw/<%=item.id%>/accept" method="POST">
                   <button>Proceed transaction</button>
                </form>
