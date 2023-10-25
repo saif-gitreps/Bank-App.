@@ -8,6 +8,7 @@ router.get("/client-page/:id", async (request, response) => {
       request.params.id,
    ]);
    const customerData = data[0];
+   // I got all these message boxes in client page, they all are set to empty first.
    response.render("client-page", {
       customerData: customerData[0],
       m1: "",

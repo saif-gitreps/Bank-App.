@@ -16,6 +16,7 @@ router.post("/create-account", async (request, response) => {
    const admin = await db.query("select * from admin where email = ?", [
       formData.useremail,
    ]);
+   // this is bascially checking if there is a user already.
    if (currentCustomers[0].length != 0 || admin[0].length != 0) {
       return response.render("register-page", {
          m1: "email already exist, choose a different one.",

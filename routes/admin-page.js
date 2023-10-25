@@ -4,9 +4,13 @@ const db = require("../database/data2");
 const router = express.Router();
 
 router.get("/admin-home/:id", async (request, response) => {
+   //Sending data to the admin view ejs to display admin and bank info.
+
    const data = await db.query("select * from admin where id = ?", [request.params.id]);
    response.render("admin-home", { adminData: data[0][0] });
 });
+
+// all these routes are self-explanatory, just loading the ejs pages.
 
 router.get("/admin/:id/transfer", async (request, response) => {
    const data = await db.query("select * from transfer");

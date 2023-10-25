@@ -5,6 +5,7 @@ const { AsyncResource } = require("async_hooks");
 
 const loginRoutes = require("./routes/login-authentication");
 const clientPageRoutes = require("./routes/client-page");
+const clientMessagesRoutes = require("./routes/client-message-routing");
 const createAccountRoutes = require("./routes/create-account");
 const adminPageRoutes = require("./routes/admin-page");
 const transferOperationRoutes = require("./routes/transfer-operation");
@@ -21,6 +22,7 @@ app.use(express.static("public"));
 
 app.use(loginRoutes);
 app.use(clientPageRoutes);
+app.use(clientMessagesRoutes);
 app.use(createAccountRoutes);
 app.use(adminPageRoutes);
 app.use(transferOperationRoutes);
@@ -32,23 +34,6 @@ app.get("/client", (request, response) => {
    response.render("client-page");
 });
 
-app.get("/client/message/:id", async (request, response) => {
-   const messageData = await db.query("select * from message_box where id = ?", [
-      request.params.id,
-   ]);
-   // dont ask why i am sending 1D array thas cuz i got a whole lotta messages aight ?
-   response.render("message-box", {
-      messageData: messageData[0],
-      account_no: request.params.id,
-   });
-});
-
-app.post("/client/message/:id/delete", async (request, response) => {
-   await db.query("delete from message_box where serial = ?", [request.params.id]);
-   response.redirect(`/client/message/${request.body.account_no}`);
-});
-
-//lol this is the middle.
 app.use((request, response) => {
    response.status(500).send("<h1>404 web page not found!</h1>");
 });

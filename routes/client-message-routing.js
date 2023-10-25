@@ -15,6 +15,7 @@ router.get("/client/message/:id", async (request, response) => {
 });
 
 router.post("/client/message/:id/delete", async (request, response) => {
+   //So when i click delete a perticular message its serial number is in the :id.(Dynamic routes).
    await db.query("delete from message_box where serial = ?", [request.params.id]);
    response.redirect(`/client/message/${request.body.account_no}`);
 });

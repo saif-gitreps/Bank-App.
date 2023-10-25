@@ -25,7 +25,7 @@ router.post("/loan/:id/accept", async (request, response) => {
    await db.query("delete from loan where id = ?", [request.params.id]);
    await db.query("insert into message_box(id, message) values(?,?)", [
       loanData[0][0].account,
-      `Dear ${customerData[0][0].name}, loan of ${loanData[0][0].amount} was successfully debited into your account`,
+      `Dear ${customerData[0][0].name}, loan of ${loanData[0][0].amount}AED was successfully debited into your account`,
    ]);
    response.redirect(`/admin/${loanData[0][0].admin_id}/loan`);
 });
@@ -37,7 +37,7 @@ router.post("/loan/:id/reject", async (request, response) => {
    await db.query("delete from loan where id = ?", [request.params.id]);
    await db.query("insert into message_box(id, message) values(?,?)", [
       loanData[0][0].account,
-      `Dear user,your request of lending ${loanData[0][0].amount} was not accepted.`,
+      `Dear user,your request of lending ${loanData[0][0].amount}AED was not accepted.`,
    ]);
    response.redirect(`/admin/${loanData[0][0].admin_id}/loan`);
 });
