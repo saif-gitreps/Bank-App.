@@ -4,7 +4,7 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Create account</title>
-      <link rel="stylesheet" href="/styles/styles.css" />
+      <link rel="stylesheet" href="/styles/create-account.css" />
    </head>
    <body>
       <header>
@@ -14,7 +14,7 @@
          <form action="/create-account" method="POST">
             <div>
                <label for="username">Name:</label>
-               <input type="text" name="username" id="username" />
+               <input type="text" name="username" id="username" required />
             </div>
             <div>
                <label for="useraddress">Address:</label>
@@ -22,19 +22,19 @@
             </div>
             <div>
                <label for="useremail">Email:</label>
-               <input type="email" name="useremail" id="useremail" />
+               <input type="email" name="useremail" id="useremail" required />
             </div>
             <div>
                <label for="userpassword1">Password:</label>
-               <input type="password" name="userpassword1" id="userpassword1" />
+               <input type="password" name="userpassword1" id="userpassword1" required />
             </div>
             <div>
                <label for="userpassword2">Confirm pass:</label>
-               <input type="password" name="userpassword2" id="userpassword2" />
+               <input type="password" name="userpassword2" id="userpassword2" required />
             </div>
             <div>
                <label for="userdob">Date of birth</label>
-               <input type="date" name="userdob" id="userdob" />
+               <input type="date" name="userdob" id="userdob" required />
             </div>
             <div>
                <label for="terms">Agree with terms and condition:</label>
@@ -44,9 +44,10 @@
             <button>Sign up</button>
          </form>
       </main>
-      <form action="/" method="GET">
-         <label>Have an account?</label>
+      <!-- <form action="/" method="GET">
+         <label>Login if an account exist:</label>
          <button>Login</button>
-      </form>
+      </form> -->
+      <h3>Click <a href="/">login</a> if an account already exists</h3>
    </body>
 </html>
