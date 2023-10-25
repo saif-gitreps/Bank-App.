@@ -4,7 +4,8 @@ const db = require("./database/data2");
 const { AsyncResource } = require("async_hooks");
 
 const loginRoutes = require("./routes/login-authentication");
-
+const clientPageRoutes = require("./routes/client-page");
+const createAccountRoutes = require("./routes/create-account");
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -13,176 +14,46 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 app.use(loginRoutes);
-// app.get("/", (request, response) => {
-//    response.render("index", { message: "" });
-// });
-
-// app.post("/login", async (request, response) => {
-//    const loginData = request.body;
-
-//    if (loginData.userselection == "admin") {
-//       const data = await db.query("select * from admin where email = ?", [
-//          loginData.useremail,
-//       ]);
-//       const adminData = data[0];
-//       if (adminData.length == 0) {
-//          response.render("index", { message: "No such Administrator exist." });
-//       } else if (adminData[0].password !== loginData.userpassword) {
-//          response.render("index", { message: "Incorrect password, please retry again." });
-//       } else {
-//          response.redirect(`/admin-home/${adminData[0].id}`);
-//       }
-//    } else {
-//       const data = await db.query("select * from customer where email = ?", [
-//          loginData.useremail,
-//       ]);
-//       const customerData = data[0];
-//       if (customerData.length == 0) {
-//          response.render("index", {
-//             message: "No such email exists, Create an account to login.",
-//          });
-//       } else if (customerData[0].password != loginData.userpassword) {
-//          response.render("index", { message: "Incorrect password, please retry again." });
-//       } else {
-//          response.redirect(`/client-page/${customerData[0].account_no}`);
-//       }
-//    }
-// });
+app.use(clientPageRoutes);
+app.use(createAccountRoutes);
 
 app.get("/client", (request, response) => {
    response.render("client-page");
 });
 
-app.get("/create-account", (request, response) => {
-   response.render("register-page", { m1: "" });
-});
+// app.get("/create-account", (request, response) => {
+//    response.render("register-page", { m1: "" });
+// });
 
-app.post("/create-account", async (request, response) => {
-   const formData = request.body;
-   console.log(formData);
-   const currentCustomers = await db.query("select * from customer where email = ?", [
-      formData.useremail,
-   ]);
-   const admin = await db.query("select * from admin where email = ?", [
-      formData.useremail,
-   ]);
-   if (currentCustomers[0].length != 0 || admin[0].length != 0) {
-      return response.render("register-page", {
-         m1: "email already exist, choose a different one.",
-      });
-   }
-   if (formData.userpassword1 != formData.userpassword2) {
-      return response.render("register-page", { m1: "passwords do not match" });
-   }
-   await db.query(
-      "insert into customer(name,email,password,balance,loan) value(?,?,?,?,?)",
-      [formData.username, formData.useremail, formData.userpassword1, 0, 0]
-   );
-   response.send(
-      `<h3 style="text-align:center;">Account created, click <a href="/">here</a> to login.</h3>`
-   );
-});
+// app.post("/create-account", async (request, response) => {
+//    const formData = request.body;
+//    console.log(formData);
+//    const currentCustomers = await db.query("select * from customer where email = ?", [
+//       formData.useremail,
+//    ]);
+//    const admin = await db.query("select * from admin where email = ?", [
+//       formData.useremail,
+//    ]);
+//    if (currentCustomers[0].length != 0 || admin[0].length != 0) {
+//       return response.render("register-page", {
+//          m1: "email already exist, choose a different one.",
+//       });
+//    }
+//    if (formData.userpassword1 != formData.userpassword2) {
+//       return response.render("register-page", { m1: "passwords do not match" });
+//    }
+//    await db.query(
+//       "insert into customer(name,email,password,balance,loan) value(?,?,?,?,?)",
+//       [formData.username, formData.useremail, formData.userpassword1, 0, 0]
+//    );
+//    response.send(
+//       `<h3 style="text-align:center;">Account created, click <a href="/">here</a> to login.</h3>`
+//    );
+// });
 
 app.get("/admin-home/:id", async (request, response) => {
    const data = await db.query("select * from admin where id = ?", [request.params.id]);
    response.render("admin-home", { adminData: data[0][0] });
-});
-
-app.get("/client-page/:id", async (request, response) => {
-   const data = await db.query("select * from customer where account_no = ?", [
-      request.params.id,
-   ]);
-   const customerData = data[0];
-   response.render("client-page", {
-      customerData: customerData[0],
-      m1: "",
-      m2: "",
-      m3: "",
-      m4: "",
-   });
-});
-
-app.post("/client/:id/transfer", async (request, response) => {
-   const requestData = request.body;
-   const senderData = await db.query("select * from customer where account_no = ?", [
-      request.params.id,
-   ]);
-   const receiverData = await db.query("select * from customer where account_no = ?", [
-      requestData.receiver,
-   ]);
-   if (receiverData[0].length == 0) {
-      return response.render("client-page", {
-         customerData: senderData[0][0],
-         m1: "No such account exist",
-         m2: "",
-         m3: "",
-         m4: "",
-      });
-   }
-   if (senderData[0][0].balance < parseInt(requestData.transferamount)) {
-      return response.render("client-page", {
-         customerData: senderData[0][0],
-         m1: "Insufficient balance",
-         m2: "",
-         m3: "",
-         m4: "",
-      });
-   }
-   await db.query(
-      "insert into transfer(sender, receiver, amount ,admin_id) values(?, ?, ?, ?)",
-      [
-         senderData[0][0].account_no,
-         receiverData[0][0].account_no,
-         requestData.transferamount,
-         1,
-      ]
-   );
-   response.redirect(`/client-page/${request.params.id}`);
-});
-
-app.post("/client/:id/deposit", async (request, response) => {
-   const customerData = await db.query("select * from customer where account_no = ?", [
-      request.params.id,
-   ]);
-   await db.query("insert into deposit(account, amount, admin_id) values(?,?,?)", [
-      customerData[0][0].account_no,
-      request.body.depositamount,
-      1,
-   ]);
-   response.redirect(`/client-page/${request.params.id}`);
-});
-
-app.post("/client/:id/withdraw", async (request, response) => {
-   const customerData = await db.query("select * from customer where account_no = ?", [
-      request.params.id,
-   ]);
-   if (parseInt(request.body.withdrawamount) > customerData[0][0].balance) {
-      return response.render("client-page", {
-         customerData: customerData[0][0],
-         m1: "",
-         m2: "",
-         m3: "Insufficient balance",
-         m4: "",
-      });
-   }
-   await db.query("insert into withdraw(account, amount, admin_id) values(?,?,?)", [
-      customerData[0][0].account_no,
-      request.body.withdrawamount,
-      1,
-   ]);
-   response.redirect(`/client-page/${request.params.id}`);
-});
-
-app.post("/client/:id/loan", async (request, response) => {
-   const customerData = await db.query("select * from customer where account_no = ?", [
-      request.params.id,
-   ]);
-   await db.query("insert into loan(account, amount, admin_id) values(?,?,?)", [
-      customerData[0][0].account_no,
-      request.body.loanamount,
-      1,
-   ]);
-   response.redirect(`/client-page/${request.params.id}`);
 });
 
 app.get("/admin/:id/transfer", async (request, response) => {
