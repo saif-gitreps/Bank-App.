@@ -3,6 +3,8 @@ const express = require("express");
 const db = require("./database/data2");
 const { AsyncResource } = require("async_hooks");
 
+const loginRoutes = require("./routes/login-authentication");
+
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -10,41 +12,42 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
-app.get("/", (request, response) => {
-   response.render("index", { message: "" });
-});
+app.use(loginRoutes);
+// app.get("/", (request, response) => {
+//    response.render("index", { message: "" });
+// });
 
-app.post("/login", async (request, response) => {
-   const loginData = request.body;
+// app.post("/login", async (request, response) => {
+//    const loginData = request.body;
 
-   if (loginData.userselection == "admin") {
-      const data = await db.query("select * from admin where email = ?", [
-         loginData.useremail,
-      ]);
-      const adminData = data[0];
-      if (adminData.length == 0) {
-         response.render("index", { message: "No such Administrator exist." });
-      } else if (adminData[0].password !== loginData.userpassword) {
-         response.render("index", { message: "Incorrect password, please retry again." });
-      } else {
-         response.redirect(`/admin-home/${adminData[0].id}`);
-      }
-   } else {
-      const data = await db.query("select * from customer where email = ?", [
-         loginData.useremail,
-      ]);
-      const customerData = data[0];
-      if (customerData.length == 0) {
-         response.render("index", {
-            message: "No such email exists, Create an account to login.",
-         });
-      } else if (customerData[0].password != loginData.userpassword) {
-         response.render("index", { message: "Incorrect password, please retry again." });
-      } else {
-         response.redirect(`/client-page/${customerData[0].account_no}`);
-      }
-   }
-});
+//    if (loginData.userselection == "admin") {
+//       const data = await db.query("select * from admin where email = ?", [
+//          loginData.useremail,
+//       ]);
+//       const adminData = data[0];
+//       if (adminData.length == 0) {
+//          response.render("index", { message: "No such Administrator exist." });
+//       } else if (adminData[0].password !== loginData.userpassword) {
+//          response.render("index", { message: "Incorrect password, please retry again." });
+//       } else {
+//          response.redirect(`/admin-home/${adminData[0].id}`);
+//       }
+//    } else {
+//       const data = await db.query("select * from customer where email = ?", [
+//          loginData.useremail,
+//       ]);
+//       const customerData = data[0];
+//       if (customerData.length == 0) {
+//          response.render("index", {
+//             message: "No such email exists, Create an account to login.",
+//          });
+//       } else if (customerData[0].password != loginData.userpassword) {
+//          response.render("index", { message: "Incorrect password, please retry again." });
+//       } else {
+//          response.redirect(`/client-page/${customerData[0].account_no}`);
+//       }
+//    }
+// });
 
 app.get("/client", (request, response) => {
    response.render("client-page");
@@ -372,12 +375,13 @@ app.post("/client/message/:id/delete", async (request, response) => {
    response.redirect(`/client/message/${request.body.account_no}`);
 });
 
-// app.use((request, response) => {
-//    response.status(500).send("<h1>404 web page not found!</h1>");
-// });
-// app.use((error, request, response, next) => {
-//    response.send("<h1>Sorry some server issue!</h1>");
-// });
+//lol this is the middle.
+app.use((request, response) => {
+   response.status(500).send("<h1>404 web page not found!</h1>");
+});
+app.use((error, request, response, next) => {
+   response.send("<h1>Sorry some server issue!</h1>");
+});
 
 app.listen(3000, () => {
    console.log("server initiated.");
