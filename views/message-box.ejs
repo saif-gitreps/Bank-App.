@@ -4,8 +4,7 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>notifcation</title>
-      <link rel="stylesheet" href="/styles/styles.css" />
-      <link rel="stylesheet" href="/styles/transfer.css" />
+      <link rel="stylesheet" href="/styles/message.css" />
    </head>
    <body>
       <header>
@@ -18,7 +17,7 @@
             <%} else {%> <%for(let item of messageData) {%>
             <li>
                <h3><%=item.message%></h3>
-               <p><%=item.date%></p>
+               <p>Date: <%=item.date%></p>
                <form action="/client/message/<%=item.serial%>/delete" method="POST">
                   <input type="hidden" name="account_no" value="<%=item.id%>" />
                   <button>Delete</button>

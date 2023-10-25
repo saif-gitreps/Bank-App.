@@ -1,0 +1,21 @@
+body {
+   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   background-color: rgb(255, 242, 201);
+}
+main {
+   border: none;
+}
+ul {
+   width: 40rem;
+   list-style: none;
+}
+li {
+   background-color: bisque;
+   padding: 1rem;
+   margin: 0.3rem;
+   border: 7px;
+}

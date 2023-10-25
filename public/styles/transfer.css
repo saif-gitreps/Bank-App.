@@ -1,3 +1,24 @@
+body {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+label {
+   display: inline-block;
+   width: 9rem;
+}
+header {
+   margin-bottom: 1rem;
+   display: flex;
+   justify-content: end;
+   align-items: end;
+}
+main {
+   padding: 2rem;
+   border: 1px solid black;
+}
+
 main {
    border: none;
 }
